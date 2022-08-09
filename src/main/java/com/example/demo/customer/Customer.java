@@ -1,35 +1,71 @@
 package com.example.demo.customer;
-
+import com.example.demo.equitydetails.EquityDetails;
+import com.example.demo.loandetails.LoanDetails;
+import com.example.demo.cryptodetails.CryptoDetails;
 import javax.persistence.*;
+import java.util.Set;
+
 @Entity
 public class Customer {
     @Id
     @GeneratedValue
     private long id;
-    private String loanProvider, cryptoCurrencyType, equityHolder;
-    private double loanAmount, cryptoValue;
     private String name;
-    private int shareInPercent, goldInGrams;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<LoanDetails> loans;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private CryptoDetails crypto;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private EquityDetails equity;
+
+    private int goldInGrams;
     private String bankName;
     private double liquidValue;
 
-    public Customer(String name){
-        this.name = name;
+    public Set<LoanDetails> getLoans() {
+        return loans;
     }
-    public Customer(long id, String loanProvider, String cryptoCurrencyType, String equityHolder, double loanAmount, double cryptoValue, String name, int shareInPercent, int goldInGrams, String bankName, double liquidValue, String realEstateLocation, double realEstateValue) {
-        this.id = id;
-        this.loanProvider = loanProvider;
-        this.cryptoCurrencyType = cryptoCurrencyType;
-        this.equityHolder = equityHolder;
-        this.loanAmount = loanAmount;
-        this.cryptoValue = cryptoValue;
-        this.name = name;
-        this.shareInPercent = shareInPercent;
+
+    public void setLoans(Set<LoanDetails> loans) {
+        this.loans = loans;
+    }
+
+    public Customer(Set<LoanDetails> loans, CryptoDetails crypto, EquityDetails equity, int goldInGrams, String bankName, double liquidValue, String realEstateLocation, double realEstateValue) {
+        this.loans = loans;
+        this.crypto = crypto;
+        this.equity = equity;
         this.goldInGrams = goldInGrams;
         this.bankName = bankName;
         this.liquidValue = liquidValue;
         this.realEstateLocation = realEstateLocation;
         this.realEstateValue = realEstateValue;
+    }
+
+    public Customer(String name){
+        this.name = name;
+    }
+
+    /*public Customer(long id, LoanDetails loans, CryptoDetails crypto, EquityDetails equity, int goldInGrams, String bankName, double liquidValue, String realEstateLocation, double realEstateValue) {
+        this.id = id;
+        this.loans = loans;
+        this.crypto = crypto;
+        this.equity = equity;
+        this.goldInGrams = goldInGrams;
+        this.bankName = bankName;
+        this.liquidValue = liquidValue;
+        this.realEstateLocation = realEstateLocation;
+        this.realEstateValue = realEstateValue;
+    }*/
+
+    public CryptoDetails getCrypto() {
+        return crypto;
+    }
+
+    public void setCrypto(CryptoDetails crypto) {
+        this.crypto = crypto;
     }
 
     private String realEstateLocation;
@@ -46,46 +82,6 @@ public class Customer {
         this.id = id;
     }
 
-    public String getLoanProvider() {
-        return loanProvider;
-    }
-
-    public void setLoanProvider(String loanProvider) {
-        this.loanProvider = loanProvider;
-    }
-
-    public String getCryptoCurrencyType() {
-        return cryptoCurrencyType;
-    }
-
-    public void setCryptoCurrencyType(String cryptoCurrencyType) {
-        this.cryptoCurrencyType = cryptoCurrencyType;
-    }
-
-    public String getEquityHolder() {
-        return equityHolder;
-    }
-
-    public void setEquityHolder(String equityHolder) {
-        this.equityHolder = equityHolder;
-    }
-
-    public double getLoanAmount() {
-        return loanAmount;
-    }
-
-    public void setLoanAmount(double loanAmount) {
-        this.loanAmount = loanAmount;
-    }
-
-    public double getCryptoValue() {
-        return cryptoValue;
-    }
-
-    public void setCryptoValue(double cryptoValue) {
-        this.cryptoValue = cryptoValue;
-    }
-
     public String getName() {
         return name;
     }
@@ -94,12 +90,12 @@ public class Customer {
         this.name = name;
     }
 
-    public int getShareInPercent() {
-        return shareInPercent;
+    public EquityDetails getEquity() {
+        return equity;
     }
 
-    public void setShareInPercent(int shareInPercent) {
-        this.shareInPercent = shareInPercent;
+    public void setEquity(EquityDetails equity) {
+        this.equity = equity;
     }
 
     public int getGoldInGrams() {
