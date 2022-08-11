@@ -1,7 +1,10 @@
 package com.example.demo.customer;
 import com.example.demo.equitydetails.EquityDetails;
+import com.example.demo.liquiddetails.LiquidDetails;
 import com.example.demo.loandetails.LoanDetails;
 import com.example.demo.cryptodetails.CryptoDetails;
+import com.example.demo.realestatedetails.RealEstateDetails;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -21,9 +24,13 @@ public class Customer {
     @OneToOne(cascade = CascadeType.ALL)
     private EquityDetails equity;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<RealEstateDetails> realEstate;
+
     private int goldInGrams;
-    private String bankName;
-    private double liquidValue;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<LiquidDetails> liquid;
 
     public Set<LoanDetails> getLoans() {
         return loans;
@@ -33,32 +40,18 @@ public class Customer {
         this.loans = loans;
     }
 
-    public Customer(Set<LoanDetails> loans, CryptoDetails crypto, EquityDetails equity, int goldInGrams, String bankName, double liquidValue, String realEstateLocation, double realEstateValue) {
+    public Customer(Set<LoanDetails> loans, Set<RealEstateDetails> realEstate, CryptoDetails crypto, EquityDetails equity, int goldInGrams, Set<LiquidDetails> liquid){
         this.loans = loans;
         this.crypto = crypto;
         this.equity = equity;
         this.goldInGrams = goldInGrams;
-        this.bankName = bankName;
-        this.liquidValue = liquidValue;
-        this.realEstateLocation = realEstateLocation;
-        this.realEstateValue = realEstateValue;
+        this.liquid = liquid;
+        this.realEstate = realEstate;
     }
 
     public Customer(String name){
         this.name = name;
     }
-
-    /*public Customer(long id, LoanDetails loans, CryptoDetails crypto, EquityDetails equity, int goldInGrams, String bankName, double liquidValue, String realEstateLocation, double realEstateValue) {
-        this.id = id;
-        this.loans = loans;
-        this.crypto = crypto;
-        this.equity = equity;
-        this.goldInGrams = goldInGrams;
-        this.bankName = bankName;
-        this.liquidValue = liquidValue;
-        this.realEstateLocation = realEstateLocation;
-        this.realEstateValue = realEstateValue;
-    }*/
 
     public CryptoDetails getCrypto() {
         return crypto;
@@ -67,9 +60,6 @@ public class Customer {
     public void setCrypto(CryptoDetails crypto) {
         this.crypto = crypto;
     }
-
-    private String realEstateLocation;
-    private double realEstateValue;
 
     public Customer() {
     }
@@ -106,35 +96,19 @@ public class Customer {
         this.goldInGrams = goldInGrams;
     }
 
-    public String getBankName() {
-        return bankName;
+    public Set<LiquidDetails> getLiquid() {
+        return liquid;
     }
 
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
+    public void setLiquid(Set<LiquidDetails> liquid) {
+        this.liquid = liquid;
     }
 
-    public double getLiquidValue() {
-        return liquidValue;
+    public Set<RealEstateDetails> getRealEstate() {
+        return realEstate;
     }
 
-    public void setLiquidValue(double liquidValue) {
-        this.liquidValue = liquidValue;
-    }
-
-    public String getRealEstateLocation() {
-        return realEstateLocation;
-    }
-
-    public void setRealEstateLocation(String realEstateLocation) {
-        this.realEstateLocation = realEstateLocation;
-    }
-
-    public double getRealEstateValue() {
-        return realEstateValue;
-    }
-
-    public void setRealEstateValue(double realEstateValue) {
-        this.realEstateValue = realEstateValue;
+    public void setRealEstate(Set<RealEstateDetails> realEstate) {
+        this.realEstate = realEstate;
     }
 }
